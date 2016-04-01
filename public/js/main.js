@@ -20382,14 +20382,26 @@ process.umask = function() { return 0; };
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Body = require('./Body.jsx');
+var Reflux = require('reflux');
+var Actions = require('../reflux/actions.jsx');
+var TimeStore = require('../reflux/TimeStore.jsx');
 
 var App = React.createClass({
   displayName: 'App',
 
+  mixins: [Reflux.listenTo(TimeStore, 'changeBackground')],
+  getInitialState: function () {
+    return { color: "white" };
+  },
+  changeBackground: function (event, data) {
+    this.setState({ bgColor: data.bgColor });
+  },
   render: function () {
+    var style = { backgroundColor: this.state.bgColor };
+
     return React.createElement(
       'div',
-      { id: 'App' },
+      { id: 'App', style: style },
       'App',
       React.createElement(Body, null)
     );
@@ -20400,7 +20412,7 @@ module.exports = App;
 
 //ReactDOM.render(<App />, document.getElementById('main-container'));
 
-},{"./Body.jsx":179,"react":157,"react-dom":1}],179:[function(require,module,exports){
+},{"../reflux/TimeStore.jsx":186,"../reflux/actions.jsx":187,"./Body.jsx":179,"react":157,"react-dom":1,"reflux":174}],179:[function(require,module,exports){
 var React = require('react');
 
 var Panel = require('./Panel.jsx');
@@ -20483,14 +20495,23 @@ module.exports = Panel;
 
 },{"../reflux/TimeStore.jsx":186,"../reflux/actions.jsx":187,"./Number.jsx":180,"./Reset.jsx":182,"./Start.jsx":183,"./Timer.jsx":184,"react":157,"reflux":174}],182:[function(require,module,exports){
 var React = require('react');
+var Reflux = require('reflux');
+var Actions = require('../reflux/actions.jsx');
+var TimeStore = require('../reflux/TimeStore.jsx');
 
 var Reset = React.createClass({
   displayName: 'Reset',
 
+  doReset: function () {
+    Actions.toggleTimer(false);
+  },
   render: function () {
     return React.createElement(
       'button',
-      { className: 'button button-blue' },
+      { className: 'button button-blue',
+        className: 'button button-blue',
+        onClick: this.doReset
+      },
       React.createElement(
         'b',
         null,
@@ -20502,7 +20523,7 @@ var Reset = React.createClass({
 
 module.exports = Reset;
 
-},{"react":157}],183:[function(require,module,exports){
+},{"../reflux/TimeStore.jsx":186,"../reflux/actions.jsx":187,"react":157,"reflux":174}],183:[function(require,module,exports){
 var React = require('react');
 var Reflux = require('reflux');
 var Actions = require('../reflux/actions.jsx');
@@ -20537,45 +20558,39 @@ var TimeStore = require('../reflux/TimeStore.jsx');
 var Timer = React.createClass({
   displayName: 'Timer',
 
-  mixins: [Reflux.listenTo(TimeStore, 'onChange'), Reflux.listenTo(TimeStore, 'onTimer')],
+  mixins: [Reflux.listenTo(TimeStore, 'onChange')],
   getInitialState: function () {
     return {
       secondsRemaining: 0
     };
   },
   tick: function () {
-    //  console.log('sec - ', this.state.secondsRemaining);
     this.setState({ secondsRemaining: this.state.secondsRemaining - 1 });
     if (this.state.secondsRemaining <= 0) {
-      clearInterval(this.interval);
+      clearInterval(this.state.interval);
+      // 20 second break
     }
   },
   componentDidMount: function () {
     this.setState({ secondsRemaining: this.state.secondsRemaining });
-
-    //  this.interval = setInterval(this.tick, 1000);
   },
   componentWillUnmount: function () {
     clearInterval(this.interval);
   },
-  onChange: function (event, time) {
-    this.setState({ secondsRemaining: time * 60 });
-    console.log('onchange - ', this.state.secondsRemaining);
-  },
-  onTimer: function (event, bCountdown) {
-    console.log('ontimer - ', this.state.secondsRemaining);
-    this.setState({ bTick: bCountdown });
+  onChange: function (event, data) {
+    this.setState({ secondsRemaining: data.minutes * 60 });
+    this.setState({ bTick: data.bCountdown });
     if (this.state.bTick) {
-      this.interval = setInterval(this.tick, 1000);
+      this.state.interval = setInterval(this.tick, 1000);
+    } else {
+      clearInterval(this.state.interval);
     }
   },
   render: function () {
     return React.createElement(
       'div',
       null,
-      'here ',
-      this.state.secondsRemaining,
-      ' Seconds Remaining: ',
+      'Seconds Remaining: ',
       this.state.secondsRemaining
     );
   }
@@ -20598,15 +20613,23 @@ var TimeStore = Reflux.createStore({
   listenables: [Actions],
   onSetMinutes: function (minutes) {
     this.minutes = minutes;
-    this.trigger('change', this.minutes);
+    this.trigger('change', this);
   },
   onToggleTimer: function (bCountdown) {
     this.bCountdown = bCountdown;
-    this.trigger('timer', this.bCountdown);
+    if (bCountdown) {
+      this.bgColor = 'green';
+    } else {
+      this.bgColor = 'white';
+    }
+    this.trigger('change', this);
   },
-  // Refresh function
-  fireUpdate: function () {
-    this.trigger('change', this.minutes);
+  onBreak: function (bBreak) {
+    if (bBreak) {
+      this.bgColor = 'green';
+    } else {
+      this.bgColor = 'white';
+    }
   }
 });
 

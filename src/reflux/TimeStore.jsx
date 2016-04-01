@@ -5,15 +5,26 @@ var TimeStore = Reflux.createStore({
   listenables: [Actions],
   onSetMinutes: function(minutes) {
     this.minutes = minutes;
-    this.trigger('change', this.minutes);
+    this.trigger('change', this);
   },
   onToggleTimer: function(bCountdown) {
     this.bCountdown = bCountdown;
-    this.trigger('timer', this.bCountdown);
+    if (bCountdown) {
+      this.bgColor = 'green';
+    }
+    else {
+      this.bgColor = 'white';
+    }
+    this.trigger('change', this);
   },
-  // Refresh function
-  fireUpdate: function() {
-    this.trigger('change', this.minutes);
+  onBreak: function(bBreak) {
+    if (bBreak) {
+      this.bgColor = 'green';
+    }
+    else {
+      this.bgColor = 'white';
+    }
+
   }
 });
 

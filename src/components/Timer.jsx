@@ -5,44 +5,39 @@ var TimeStore = require('../reflux/TimeStore.jsx');
 
 
 var Timer = React.createClass({
-  mixins:[Reflux.listenTo(TimeStore, 'onChange'),
-    Reflux.listenTo(TimeStore, 'onTimer')
-  ],
+  mixins:[Reflux.listenTo(TimeStore, 'onChange')],
   getInitialState: function() {
     return {
       secondsRemaining: 0
     };
   },
   tick: function() {
-//  console.log('sec - ', this.state.secondsRemaining);
     this.setState({secondsRemaining: this.state.secondsRemaining - 1});
     if (this.state.secondsRemaining <= 0) {
-      clearInterval(this.interval);
+      clearInterval(this.state.interval);
+      // 20 second break
+
     }
   },
   componentDidMount: function() {
     this.setState({ secondsRemaining: this.state.secondsRemaining });
-
-  //  this.interval = setInterval(this.tick, 1000);
   },
   componentWillUnmount: function() {
     clearInterval(this.interval);
   },
-  onChange: function(event, time) {
-    this.setState({secondsRemaining: time * 60});
-  console.log('onchange - ', this.state.secondsRemaining);
-
-  },
-  onTimer: function(event, bCountdown) {
-    console.log('ontimer - ', this.state.secondsRemaining);
-  this.setState({bTick: bCountdown});
+  onChange: function(event, data) {
+    this.setState({secondsRemaining: data.minutes * 60});
+    this.setState({bTick: data.bCountdown});
     if (this.state.bTick) {
-      this.interval = setInterval(this.tick, 1000);
+      this.state.interval = setInterval(this.tick, 1000);
+    }
+    else {
+      clearInterval(this.state.interval);
     }
   },
   render: function() {
     return (
-      <div>here {this.state.secondsRemaining} Seconds Remaining: {this.state.secondsRemaining}</div>
+      <div>Seconds Remaining: {this.state.secondsRemaining}</div>
     );
   }
 });
