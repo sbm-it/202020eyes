@@ -20569,6 +20569,7 @@ var Timer = React.createClass({
     if (this.state.secondsRemaining <= 0) {
       clearInterval(this.state.interval);
       // 20 second break
+      // blink 2 TimeS
     }
   },
   componentDidMount: function () {
