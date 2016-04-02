@@ -5,6 +5,7 @@ var TimeStore = Reflux.createStore({
   listenables: [Actions],
   onSetMinutes: function(minutes) {
     this.minutes = minutes;
+    this.defaultMinutes = minutes;
     this.trigger('change', this);
   },
   onToggleTimer: function(bCountdown) {
@@ -18,13 +19,18 @@ var TimeStore = Reflux.createStore({
     this.trigger('change', this);
   },
   onBreak: function(bBreak) {
+console.log('onBreak - ', bBreak);
     if (bBreak) {
-      this.bgColor = 'green';
+      this.minutes = .4;    // 20 seconds
+      this.bgColor = 'red';
     }
     else {
-      this.bgColor = 'white';
+      this.minutes = this.defaultMinutes;
+      this.bCountdown = true;
+      this.bgColor = 'green';
     }
-
+    this.bBreak = !bBreak;
+    this.trigger('change', this);
   }
 });
 

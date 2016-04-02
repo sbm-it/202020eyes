@@ -2,7 +2,8 @@ var Reflux = require('reflux');
 
 var Actions = Reflux.createActions([
   'setMinutes',
-  'toggleTimer'
+  'toggleTimer',
+  'break'
 ]);
 
 module.exports = Actions;

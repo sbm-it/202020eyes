@@ -20442,7 +20442,7 @@ var Number = React.createClass({
   displayName: 'Number',
 
   getInitialState: function () {
-    return { minutes: 20 };
+    return { minutes: .3 };
   },
   componentDidMount: function () {
     Actions.setMinutes(this.state.minutes);
@@ -20561,26 +20561,36 @@ var Timer = React.createClass({
   mixins: [Reflux.listenTo(TimeStore, 'onChange')],
   getInitialState: function () {
     return {
-      secondsRemaining: 0
+      secondsRemaining: 0,
+      bBreak: false
     };
   },
   tick: function () {
     this.setState({ secondsRemaining: this.state.secondsRemaining - 1 });
+
     if (this.state.secondsRemaining <= 0) {
+      console.log('1', this.state.bBreak);
       clearInterval(this.state.interval);
       // 20 second break
       // blink 2 TimeS
+      Actions.break(this.state.bBreak);
+      this.setState({ secondsRemaining: 20 });
     }
   },
   componentDidMount: function () {
-    this.setState({ secondsRemaining: this.state.secondsRemaining });
+    //    this.setState({ secondsRemaining: this.state.secondsRemaining });
+    //    this.setState({ bBreak: this.state.bBreak });
+    console.log('secondsRemaining', this.state.secondsRemaining);
+    console.log('bBreak', this.state.bBreak);
   },
   componentWillUnmount: function () {
     clearInterval(this.interval);
   },
   onChange: function (event, data) {
+    //  console.log('data', data);
     this.setState({ secondsRemaining: data.minutes * 60 });
     this.setState({ bTick: data.bCountdown });
+    this.setState({ bBreak: data.bBreak });
     if (this.state.bTick) {
       this.state.interval = setInterval(this.tick, 1000);
     } else {
@@ -20614,6 +20624,7 @@ var TimeStore = Reflux.createStore({
   listenables: [Actions],
   onSetMinutes: function (minutes) {
     this.minutes = minutes;
+    this.defaultMinutes = minutes;
     this.trigger('change', this);
   },
   onToggleTimer: function (bCountdown) {
@@ -20626,11 +20637,17 @@ var TimeStore = Reflux.createStore({
     this.trigger('change', this);
   },
   onBreak: function (bBreak) {
+    console.log('onBreak - ', bBreak);
     if (bBreak) {
-      this.bgColor = 'green';
+      this.minutes = .4; // 20 seconds
+      this.bgColor = 'red';
     } else {
-      this.bgColor = 'white';
+      this.minutes = this.defaultMinutes;
+      this.bCountdown = true;
+      this.bgColor = 'green';
     }
+    this.bBreak = !bBreak;
+    this.trigger('change', this);
   }
 });
 
@@ -20639,7 +20656,7 @@ module.exports = TimeStore;
 },{"./actions.jsx":187,"reflux":174}],187:[function(require,module,exports){
 var Reflux = require('reflux');
 
-var Actions = Reflux.createActions(['setMinutes', 'toggleTimer']);
+var Actions = Reflux.createActions(['setMinutes', 'toggleTimer', 'break']);
 
 module.exports = Actions;
 
