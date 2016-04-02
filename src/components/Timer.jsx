@@ -27,8 +27,8 @@ var Timer = React.createClass({
   componentDidMount: function() {
 //    this.setState({ secondsRemaining: this.state.secondsRemaining });
 //    this.setState({ bBreak: this.state.bBreak });
-    console.log('secondsRemaining', this.state.secondsRemaining);
-    console.log('bBreak', this.state.bBreak);
+//    console.log('secondsRemaining', this.state.secondsRemaining);
+//    console.log('bBreak', this.state.bBreak);
   },
   componentWillUnmount: function() {
     clearInterval(this.interval);
