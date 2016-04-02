@@ -1,4 +1,4 @@
-var React = require('react');
+var React = require('react'); 
 var Reflux = require('reflux');
 var Actions = require('../reflux/actions.jsx');
 var TimeStore = require('../reflux/TimeStore.jsx');
@@ -51,6 +51,6 @@ var Timer = React.createClass({
     );
   }
 });
- 
+
 
 module.exports = Timer;
