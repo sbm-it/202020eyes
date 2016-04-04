@@ -19,8 +19,8 @@ var TimeStore = Reflux.createStore({
     this.trigger('change', this);
   },
   onBreak: function(bBreak) {
-console.log('onBreak - ', bBreak);
-    if (bBreak) {
+console.log('onBreak111 - ', typeof(bBreak));
+    if (bBreak || typeof(bBreak) == null) {
       this.minutes = .4;    // 20 seconds
       this.bgColor = 'red';
     }
