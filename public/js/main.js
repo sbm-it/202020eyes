@@ -20402,7 +20402,6 @@ var App = React.createClass({
     return React.createElement(
       'div',
       { id: 'App', style: style },
-      'App',
       React.createElement(Body, null)
     );
   }
@@ -20442,7 +20441,7 @@ var Number = React.createClass({
   displayName: 'Number',
 
   getInitialState: function () {
-    return { minutes: .3 };
+    return { minutes: .2 };
   },
   componentDidMount: function () {
     Actions.setMinutes(this.state.minutes);
@@ -20481,7 +20480,7 @@ var Panel = React.createClass({
       'div',
       { id: 'Panel' },
       'Panel',
-      React.createElement(Timer, { secondsRemaining: '10' }),
+      React.createElement(Timer, null),
       React.createElement(Number, null),
       React.createElement('br', null),
       React.createElement(Start, null),
@@ -20539,7 +20538,8 @@ var Start = React.createClass({
     return React.createElement(
       'button',
       {
-        className: 'button button-blue',
+        type: 'button',
+        className: 'btn button-primary',
         onClick: this.doStart
       },
       'Start'
@@ -20567,20 +20567,13 @@ var Timer = React.createClass({
   },
   tick: function () {
     this.setState({ secondsRemaining: this.state.secondsRemaining - 1 });
-
     if (this.state.secondsRemaining <= 0) {
       clearInterval(this.state.interval);
       // 20 second break
-      // blink 2 TimeS
+      // blink 2 Times
       Actions.break(this.state.bBreak);
       this.setState({ secondsRemaining: 20 });
     }
-  },
-  componentDidMount: function () {
-    //    this.setState({ secondsRemaining: this.state.secondsRemaining });
-    //    this.setState({ bBreak: this.state.bBreak });
-    console.log('secondsRemaining', this.state.secondsRemaining);
-    console.log('bBreak', this.state.bBreak);
   },
   componentWillUnmount: function () {
     clearInterval(this.interval);
@@ -20621,6 +20614,9 @@ var Actions = require('./actions.jsx');
 
 var TimeStore = Reflux.createStore({
   listenables: [Actions],
+  init: function () {
+    this.bBreak = false;
+  },
   onSetMinutes: function (minutes) {
     this.minutes = minutes;
     this.defaultMinutes = minutes;
@@ -20636,16 +20632,15 @@ var TimeStore = Reflux.createStore({
     this.trigger('change', this);
   },
   onBreak: function (bBreak) {
-    console.log('onBreak111 - ', typeof bBreak);
-    if (bBreak || typeof bBreak == null) {
-      this.minutes = .4; // 20 seconds
+    this.bBreak = !bBreak;
+    if (this.bBreak) {
+      this.minutes = .3333; // 20 seconds
       this.bgColor = 'red';
     } else {
       this.minutes = this.defaultMinutes;
       this.bCountdown = true;
       this.bgColor = 'green';
     }
-    this.bBreak = !bBreak;
     this.trigger('change', this);
   }
 });

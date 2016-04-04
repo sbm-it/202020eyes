@@ -14,20 +14,13 @@ var Timer = React.createClass({
   },
   tick: function() {
     this.setState({secondsRemaining: this.state.secondsRemaining - 1});
-
     if (this.state.secondsRemaining <= 0) {
       clearInterval(this.state.interval);
       // 20 second break
-      // blink 2 TimeS
+      // blink 2 Times
       Actions.break(this.state.bBreak);
       this.setState({ secondsRemaining: 20 });
     }
-  },
-  componentDidMount: function() {
-//    this.setState({ secondsRemaining: this.state.secondsRemaining });
-//    this.setState({ bBreak: this.state.bBreak });
-    console.log('secondsRemaining', this.state.secondsRemaining);
-    console.log('bBreak', this.state.bBreak);
   },
   componentWillUnmount: function() {
     clearInterval(this.interval);

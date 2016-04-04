@@ -13,7 +13,7 @@ var Panel = React.createClass({
     return (
       <div id='Panel'>
         Panel
-        <Timer  secondsRemaining="10" />
+        <Timer />
         <Number /><br />
         <Start /><br />
         <Reset />

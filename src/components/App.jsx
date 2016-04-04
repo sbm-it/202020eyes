@@ -18,7 +18,6 @@ var App = React.createClass({
 
     return (
       <div id='App' style={style}>
-        App
         <Body />
       </div>
     )

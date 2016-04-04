@@ -11,7 +11,8 @@ var Start = React.createClass({
     render: function () {
     return (
       <button
-        className='button button-blue'
+        type='button'
+        className='btn button-primary'
         onClick={this.doStart}
       >
       Start

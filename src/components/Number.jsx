@@ -5,7 +5,7 @@ var TimeStore = require('../reflux/TimeStore.jsx');
 
 var Number = React.createClass({
   getInitialState: function() {
-    return {minutes: .3};
+    return {minutes: .2};
   },
   componentDidMount: function() {
     Actions.setMinutes(this.state.minutes);
