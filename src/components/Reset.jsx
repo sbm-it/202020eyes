@@ -10,8 +10,8 @@ var Reset = React.createClass({
     },
     render: function () {
     return (
-      <button className='button button-blue'
-        className='button button-blue'
+      <button
+        className='btn btn-danger btn-lg'
         onClick={this.doReset}
       >
         <b>

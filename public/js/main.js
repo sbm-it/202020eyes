@@ -20381,6 +20381,7 @@ process.umask = function() { return 0; };
 },{}],178:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
+
 var Body = require('./Body.jsx');
 var Reflux = require('reflux');
 var Actions = require('../reflux/actions.jsx');
@@ -20397,7 +20398,7 @@ var App = React.createClass({
     this.setState({ bgColor: data.bgColor });
   },
   render: function () {
-    var style = { backgroundColor: this.state.bgColor };
+    var style = { width: 100, height: 100, backgroundColor: this.state.bgColor };
 
     return React.createElement(
       'div',
@@ -20507,8 +20508,8 @@ var Reset = React.createClass({
   render: function () {
     return React.createElement(
       'button',
-      { className: 'button button-blue',
-        className: 'button button-blue',
+      {
+        className: 'btn btn-danger btn-lg',
         onClick: this.doReset
       },
       React.createElement(
@@ -20539,7 +20540,7 @@ var Start = React.createClass({
       'button',
       {
         type: 'button',
-        className: 'btn button-primary',
+        className: 'btn btn-success btn-lg btn-block',
         onClick: this.doStart
       },
       'Start'

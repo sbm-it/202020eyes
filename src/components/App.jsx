@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+
 var Body = require('./Body.jsx');
 var Reflux = require('reflux');
 var Actions = require('../reflux/actions.jsx');
@@ -14,7 +15,7 @@ var App = React.createClass({
     this.setState({ bgColor: data.bgColor });
   },
   render: function () {
-    var style = { backgroundColor : this.state.bgColor };
+    var style = { width:100,height:100, backgroundColor : this.state.bgColor};
 
     return (
       <div id='App' style={style}>

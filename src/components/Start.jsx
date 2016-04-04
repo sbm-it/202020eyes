@@ -12,7 +12,7 @@ var Start = React.createClass({
     return (
       <button
         type='button'
-        className='btn button-primary'
+        className='btn btn-success btn-lg btn-block'
         onClick={this.doStart}
       >
       Start
