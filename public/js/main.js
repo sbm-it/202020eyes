@@ -20398,7 +20398,7 @@ var App = React.createClass({
     this.setState({ bgColor: data.bgColor });
   },
   render: function () {
-    var style = { width: 100, height: 100, backgroundColor: this.state.bgColor };
+    var style = { backgroundColor: this.state.bgColor };
 
     return React.createElement(
       'div',
@@ -20509,7 +20509,7 @@ var Reset = React.createClass({
     return React.createElement(
       'button',
       {
-        className: 'btn btn-danger btn-lg',
+        className: 'btn btn-danger btn-lg btn-block',
         onClick: this.doReset
       },
       React.createElement(
@@ -20536,10 +20536,12 @@ var Start = React.createClass({
     Actions.toggleTimer(true);
   },
   render: function () {
+    var divStyle = { position: 'relative', top: 400 };
     return React.createElement(
       'button',
       {
         type: 'button',
+        style: divStyle,
         className: 'btn btn-success btn-lg btn-block',
         onClick: this.doStart
       },

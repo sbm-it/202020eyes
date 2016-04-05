@@ -11,7 +11,7 @@ var Reset = React.createClass({
     render: function () {
     return (
       <button
-        className='btn btn-danger btn-lg'
+        className='btn btn-danger btn-lg btn-block'
         onClick={this.doReset}
       >
         <b>

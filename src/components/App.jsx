@@ -15,7 +15,7 @@ var App = React.createClass({
     this.setState({ bgColor: data.bgColor });
   },
   render: function () {
-    var style = { width:100,height:100, backgroundColor : this.state.bgColor};
+    var style = { backgroundColor : this.state.bgColor};
 
     return (
       <div id='App' style={style}>
