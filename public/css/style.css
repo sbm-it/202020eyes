@@ -1,5 +1,28 @@
-#202020 {
+html, body {
     height: 100%;
-    overflow: hidden;
-    position: relative;
+}
+.container-fluid {
+    height: 100%;
+    overflow-y: hidden; /* don't show content that exceeds my height */
+}
+
+
+#App {
+  height: 100%;
+
+}
+
+#Body {
+  height: 100%;
+
+}
+
+#Panel {
+  height: 100%;
+
+}
+
+.buttons20 {
+  position: absolute;
+  top: 75%;
 }

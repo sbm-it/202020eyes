@@ -20424,7 +20424,6 @@ var Body = React.createClass({
     return React.createElement(
       'div',
       { id: 'Body' },
-      'Body',
       React.createElement(Panel, null)
     );
   }
@@ -20480,13 +20479,15 @@ var Panel = React.createClass({
     return React.createElement(
       'div',
       { id: 'Panel' },
-      'Panel',
       React.createElement(Timer, null),
       React.createElement(Number, null),
       React.createElement('br', null),
-      React.createElement(Start, null),
-      React.createElement('br', null),
-      React.createElement(Reset, null)
+      React.createElement(
+        'div',
+        { className: 'row buttons20' },
+        React.createElement(Start, null),
+        React.createElement(Reset, null)
+      )
     );
   }
 });
@@ -20536,12 +20537,10 @@ var Start = React.createClass({
     Actions.toggleTimer(true);
   },
   render: function () {
-    var divStyle = { position: 'relative', top: 400 };
     return React.createElement(
       'button',
       {
         type: 'button',
-        style: divStyle,
         className: 'btn btn-success btn-lg btn-block',
         onClick: this.doStart
       },

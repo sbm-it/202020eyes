@@ -12,11 +12,12 @@ var Panel = React.createClass({
   render: function () {
     return (
       <div id='Panel'>
-        Panel
         <Timer />
         <Number /><br />
-        <Start /><br />
-        <Reset />
+        <div className="row buttons20">
+          <Start />
+          <Reset />
+        </div>
       </div>
     )
   }

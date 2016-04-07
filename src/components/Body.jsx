@@ -6,7 +6,6 @@ var Body = React.createClass({
   render: function () {
     return (
       <div id='Body'>
-        Body
         <Panel />
       </div>
     )

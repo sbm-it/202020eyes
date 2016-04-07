@@ -9,11 +9,9 @@ var Start = React.createClass({
       Actions.toggleTimer(true);
     },
     render: function () {
-      var divStyle = { position:'relative', top: 400 };
     return (
       <button
         type='button'
-        style={divStyle}
         className='btn btn-success btn-lg btn-block'
         onClick={this.doStart}
       >
